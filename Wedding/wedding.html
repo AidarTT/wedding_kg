@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light only">
+<title id="pageTitle">Айдар & Алтынай</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&family=Great+Vibes&family=Noto+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --green:#034638; --green-light:#055a48; --dark:#022d24; --text:#022d24; --muted:#5a8578; }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;background:#fff!important;}
+  body{background:#fff!important;color:#022d24!important;font-family:'Jost','Noto Sans',sans-serif;font-weight:300;overflow-x:hidden;}
+  @media(prefers-color-scheme:dark){html,body{background:#fff!important;color:#022d24!important;}}
+
+  .lang-bar{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:flex-end;gap:6px;padding:12px 28px;background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);border-bottom:1px solid rgba(3,70,56,0.15);}
+  .lang-btn{font-family:'Jost',sans-serif;font-size:12px;font-weight:500;letter-spacing:2px;text-transform:uppercase;border:1px solid var(--green);background:transparent;color:var(--muted);padding:5px 14px;cursor:pointer;transition:all 0.3s;}
+  .lang-btn.active,.lang-btn:hover{background:var(--green);color:white;}
+
+  .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;padding:80px 20px 60px;overflow:hidden;}
+  .hero::after{content:'';position:absolute;inset:60px 20px 20px;border:1px solid rgba(3,70,56,0.18);pointer-events:none;}
+  .ornament-tl,.ornament-tr,.ornament-bl,.ornament-br{position:absolute;width:60px;height:60px;pointer-events:none;z-index:2;}
+  .ornament-tl{top:55px;left:15px;border-top:2px solid var(--green);border-left:2px solid var(--green);}
+  .ornament-tr{top:55px;right:15px;border-top:2px solid var(--green);border-right:2px solid var(--green);}
+  .ornament-bl{bottom:15px;left:15px;border-bottom:2px solid var(--green);border-left:2px solid var(--green);}
+  .ornament-br{bottom:15px;right:15px;border-bottom:2px solid var(--green);border-right:2px solid var(--green);}
+  .hero-content{text-align:center;position:relative;z-index:2;}
+  .invite-label{font-size:11px;letter-spacing:5px;text-transform:uppercase;color:var(--green);margin-bottom:32px;animation:fadeUp 1s ease both;}
+  .names{font-family:'Cormorant Garamond',serif;font-size:clamp(64px,12vw,130px);font-weight:300;line-height:0.9;color:var(--dark);animation:fadeUp 1s 0.2s ease both;letter-spacing:-2px;}
+  .ampersand{font-family:'Cormorant Garamond',serif;font-size:clamp(48px,8vw,90px);font-style:italic;color:var(--green-light);display:block;line-height:1;}
+  .date-line{margin-top:36px;font-size:13px;letter-spacing:6px;text-transform:uppercase;color:var(--muted);animation:fadeUp 1s 0.4s ease both;}
+
+  .dear-guests{max-width:640px;margin:0 auto;padding:0 20px;}
+  .dear-guests-inner{border:1px solid rgba(3,70,56,0.15);padding:52px 48px;position:relative;text-align:center;}
+  .dear-guests-inner::before{content:'';position:absolute;top:-1px;left:-1px;width:40px;height:40px;border-top:2px solid var(--green);border-left:2px solid var(--green);}
+  .dear-guests-inner::after{content:'';position:absolute;bottom:-1px;right:-1px;width:40px;height:40px;border-bottom:2px solid var(--green);border-right:2px solid var(--green);}
+  .dear-guests-heading{font-family:'Cormorant Garamond',serif;font-size:clamp(34px,6vw,54px);font-style:italic;font-weight:300;color:var(--green);margin-bottom:24px;line-height:1.1;}
+  .dear-guests-hearts{display:flex;align-items:center;justify-content:center;gap:8px;margin:20px 0 24px;}
+  .dear-guests-hearts::before,.dear-guests-hearts::after{content:'';flex:1;max-width:80px;height:1px;background:rgba(3,70,56,0.2);}
+  .heart-icon{color:var(--text);font-size:11px;opacity:0.6;}
+  .dear-guests-text{font-family:'Cormorant Garamond',serif;font-size:19px;line-height:1.95;color:var(--muted);font-weight:300;}
+
+  .calendar-section{max-width:440px;margin:0 auto;padding:0 20px;text-align:center;}
+  .cal-label{font-size:10px;letter-spacing:6px;text-transform:uppercase;color:var(--green);margin-bottom:32px;display:block;}
+  .calendar-wrap{border:1px solid rgba(3,70,56,0.15);padding:32px 28px;background:#fff;}
+  .cal-month{font-family:'Cormorant Garamond',serif;font-size:30px;font-style:italic;font-weight:300;color:var(--green);text-align:center;margin-bottom:24px;letter-spacing:1px;}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;}
+  .cal-day-name{font-size:9px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--muted);text-align:center;padding:6px 0;}
+  .cal-day{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--text);position:relative;transition:all 0.2s;}
+  .cal-day.empty{background:transparent;}
+  .cal-day.weekend{color:rgba(3,70,56,0.35);}
+  .cal-day.highlight{color:var(--green);font-weight:400;font-size:20px;}
+  .cal-day.highlight::before{content:'';position:absolute;inset:4px;border:1px solid rgba(3,70,56,0.35);border-radius:50%;}
+  .cal-day.highlight::after{display:none;}
+
+  /* PHOTOS */
+  .photo-wide{max-width:700px;margin:0 auto;padding:0 20px;}
+  /* PHOTO SLIDER — page turn */
+  .photo-slider-wrap{max-width:900px;margin:0 auto;padding:0 20px;position:relative;user-select:none;}
+  .photo-slider{position:relative;perspective:1400px;overflow:hidden;}
+  .photo-slide{display:block;width:100%;position:absolute;top:0;left:0;
+    transform-origin:left center;
+    backface-visibility:hidden;
+    transition:transform 0.85s cubic-bezier(0.645,0.045,0.355,1.000),opacity 0.85s ease,box-shadow 0.85s ease;
+    transform:rotateY(0deg);opacity:0;pointer-events:none;box-shadow:none;}
+  .photo-slide.active{position:relative;opacity:1;pointer-events:auto;
+    transform:rotateY(0deg);
+    box-shadow:8px 8px 32px rgba(3,70,56,0.12);}
+  .photo-slide.exit-left{position:absolute;transform:rotateY(-90deg) scale(0.92);opacity:0;box-shadow:none;}
+  .photo-slide.enter-right{position:absolute;transform:rotateY(90deg) scale(0.92);opacity:0;box-shadow:none;}
+  .photo-slide.exit-right{position:absolute;transform:rotateY(90deg) scale(0.92);opacity:0;box-shadow:none;}
+  .photo-slide.enter-left{position:absolute;transform:rotateY(-90deg) scale(0.92);opacity:0;box-shadow:none;}
+  .photo-slide img{width:100%;height:auto;display:block;}
+  .photo-slide.has-photo{min-height:unset;}
+  .photo-slide .photo-empty{min-height:260px;background:#e8e4de;display:flex;align-items:center;justify-content:center;}
+  .slider-dots{display:flex;justify-content:center;gap:8px;margin-top:16px;}
+  .slider-dot{width:7px;height:7px;border-radius:50%;background:rgba(3,70,56,0.2);cursor:pointer;transition:all 0.3s;}
+  .slider-dot.active{background:var(--green);transform:scale(1.3);}
+  .photo-triplet{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:12px;max-width:1100px;margin:0 auto;padding:0 20px;}
+  .photo-slot{position:relative;overflow:hidden;background:#ddd8d0;cursor:default;min-height:120px;}
+  .photo-slot img{width:100%;height:auto;display:block;transition:transform 0.6s ease;}
+  .photo-slot.has-photo{min-height:unset;}
+
+  .divider{display:flex;align-items:center;gap:16px;max-width:400px;margin:60px auto;padding:0 20px;overflow:hidden;}
+  .divider::before,.divider::after{content:'';flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(3,70,56,0.3));transform-origin:left center;transform:scaleX(0);transition:transform 1s cubic-bezier(0.22,1,0.36,1);}
+  .divider::after{background:linear-gradient(to left,transparent,rgba(3,70,56,0.3));transform-origin:right center;}
+  .divider.in-view::before,.divider.in-view::after{transform:scaleX(1);}
+  .divider-icon{color:var(--green);font-size:18px;font-family:'Cormorant Garamond',serif;font-style:italic;}
+
+  .section-label{font-size:10px;letter-spacing:6px;text-transform:uppercase;color:var(--green);margin-bottom:48px;display:block;}
+  .timer-section{text-align:center;padding:0 20px 80px;}
+  .timer{display:flex;justify-content:center;gap:clamp(20px,5vw,60px);flex-wrap:wrap;}
+  .timer-unit{display:flex;flex-direction:column;align-items:center;gap:8px;}
+  .timer-num{font-family:'Cormorant Garamond',serif;font-size:clamp(52px,10vw,96px);font-weight:300;line-height:1;color:var(--dark);min-width:90px;position:relative;}
+  .timer-num::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:rgba(3,70,56,0.18);}
+  .timer-label{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--muted);}
+
+  .details-section{padding:0 20px 80px;max-width:700px;margin:0 auto;text-align:center;}
+  .details-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px 32px;margin-top:48px;}
+  .detail-item h3{font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;color:var(--green);margin-bottom:10px;}
+  .detail-item p{font-size:14px;line-height:1.8;color:var(--muted);letter-spacing:0.5px;}
+
+  .closing-script{text-align:center;padding:0 20px;}
+  .closing-script-text{font-family:'Great Vibes',cursive;font-size:clamp(32px,6vw,56px);color:var(--green);line-height:1.4;}
+  .closing-script-text .ky-char{font-family:'Noto Sans','Jost',sans-serif;font-size:clamp(26px,5vw,46px);font-style:italic;}
+
+  .form-section{background:var(--dark);padding:100px 20px;text-align:center;position:relative;overflow:hidden;}
+  .form-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(255,255,255,0.04) 0%,transparent 70%);}
+  .form-section .section-label{color:rgba(255,255,255,0.5);}
+  .form-title{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,6vw,60px);font-weight:300;color:white;margin-bottom:12px;}
+  .form-sub{font-size:14px;color:rgba(255,255,255,0.4);margin-bottom:32px;letter-spacing:0.5px;line-height:1.7;}
+  .form-invite-text{font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:rgba(255,255,255,0.65);line-height:1.85;max-width:520px;margin:0 auto 52px;padding:24px 32px;border:1px solid rgba(255,255,255,0.12);}
+  .rsvp-form{max-width:480px;margin:0 auto;position:relative;z-index:1;}
+  .form-field{margin-bottom:24px;text-align:left;}
+  .form-field label{display:block;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:10px;}
+  .form-field input[type="text"]{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,0.25);padding:10px 0;font-family:'Cormorant Garamond',serif;font-size:22px;color:white;outline:none;transition:border-color 0.3s;}
+  .form-field input[type="text"]::placeholder{color:rgba(255,255,255,0.2);font-style:italic;}
+  .form-field input[type="text"]:focus{border-color:rgba(255,255,255,0.7);}
+  .attendance-opts{display:flex;gap:10px;margin-top:8px;flex-wrap:wrap;}
+  .attendance-opt{flex:1;min-width:100px;position:relative;}
+  .attendance-opt input{display:none;}
+  .attendance-opt label{display:block;border:1px solid rgba(255,255,255,0.18);padding:13px 8px;text-align:center;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.38);cursor:pointer;transition:all 0.3s;margin:0;}
+  .attendance-opt input:checked+label{border-color:rgba(255,255,255,0.75);background:rgba(255,255,255,0.1);color:#fff;}
+  .attendance-opt label:hover{border-color:rgba(255,255,255,0.45);color:rgba(255,255,255,0.65);}
+  .submit-btn{width:100%;margin-top:40px;padding:18px;background:#fff;border:none;color:var(--dark);font-family:'Jost',sans-serif;font-size:11px;font-weight:500;letter-spacing:5px;text-transform:uppercase;cursor:pointer;transition:all 0.3s;}
+  .submit-btn:hover{background:#e8e8e8;transform:translateY(-1px);}
+  .submit-btn:disabled{opacity:0.5;cursor:not-allowed;transform:none;}
+  .form-success{display:none;font-family:'Cormorant Garamond',serif;font-size:clamp(36px,6vw,64px);font-style:italic;font-weight:300;color:#fff;padding:60px 20px;line-height:1.3;}
+  .side-opts{display:flex;gap:10px;margin-bottom:24px;margin-top:8px;}
+  .side-opts.error label{border-color:#c0392b!important;}
+  .spouse-name-error{border-color:#c0392b!important;}
+  .side-opt{flex:1;position:relative;}
+  .side-opt input{display:none;}
+  .side-opt label{display:block;border:1px solid rgba(255,255,255,0.18);padding:12px 8px;text-align:center;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.38);cursor:pointer;transition:all 0.3s;margin:0;}
+  .side-opt input:checked+label{border-color:rgba(255,255,255,0.75);background:rgba(255,255,255,0.1);color:#fff;}
+  .side-opt label:hover{border-color:rgba(255,255,255,0.45);color:rgba(255,255,255,0.65);}
+  .side-opts.error .side-opt label{border-color:#c0392b;animation:shake 0.3s ease;}
+  .side-error-msg{display:none;font-size:11px;letter-spacing:1px;color:#e57373;margin-top:6px;}
+  .side-opts.error + .side-error-msg{display:block;}
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+  .spouse-toggle{display:flex;align-items:center;gap:10px;margin-bottom:20px;cursor:pointer;}
+  .spouse-toggle input{display:none;}
+  .spouse-check{width:18px;height:18px;border:1px solid rgba(255,255,255,0.35);display:inline-flex;align-items:center;justify-content:center;transition:all 0.2s;flex-shrink:0;}
+  .spouse-toggle input:checked ~ .spouse-check{background:rgba(255,255,255,0.2);border-color:rgba(255,255,255,0.8);}
+  .spouse-check::after{content:'✓';color:white;font-size:12px;opacity:0;transition:opacity 0.2s;}
+  .spouse-toggle input:checked ~ .spouse-check::after{opacity:1;}
+  .spouse-toggle-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.55);}
+  .spouse-field{display:none;margin-bottom:24px;}
+  .spouse-field.visible{display:block;}
+
+  footer{text-align:center;padding:60px 20px;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);background:#fff;border-top:1px solid rgba(3,70,56,0.12);}
+  .footer-names{font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:var(--green);display:block;margin-bottom:16px;letter-spacing:1px;}
+
+  /* PHOTO placeholder (read-only for guests) */
+  .photo-empty{width:100%;height:100%;min-height:180px;background:#e8e4de;display:flex;align-items:center;justify-content:center;}
+  .photo-empty svg{width:36px;height:36px;stroke:#b0a898;fill:none;}
+
+  /* Animations */
+  @keyframes fadeUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+  [data-anim]{opacity:0;}
+  [data-anim="up"]{transform:translateY(48px);}
+  [data-anim="left"]{transform:translateX(-48px);}
+  [data-anim="right"]{transform:translateX(48px);}
+  [data-anim="scale"]{transform:scale(0.88);}
+  [data-anim].in-view{opacity:1;transform:none;transition:opacity 0.85s cubic-bezier(0.22,1,0.36,1),transform 0.85s cubic-bezier(0.22,1,0.36,1);}
+  [data-anim].in-view[data-delay="1"]{transition-delay:0.1s;}
+  [data-anim].in-view[data-delay="2"]{transition-delay:0.2s;}
+  [data-anim].in-view[data-delay="3"]{transition-delay:0.3s;}
+  [data-anim].in-view[data-delay="4"]{transition-delay:0.4s;}
+
+  /* Loading overlay */
+  .loading-overlay{position:fixed;inset:0;background:#fff;display:flex;align-items:center;justify-content:center;z-index:999;transition:opacity 0.5s;}
+  .loading-overlay.hidden{opacity:0;pointer-events:none;}
+  .loading-dot{width:8px;height:8px;border-radius:50%;background:var(--green);animation:loadPulse 1.2s ease-in-out infinite;}
+  .loading-dot:nth-child(2){animation-delay:0.2s;}
+  .loading-dot:nth-child(3){animation-delay:0.4s;}
+  .loading-dots{display:flex;gap:8px;}
+  @keyframes loadPulse{0%,80%,100%{opacity:0.2;transform:scale(0.8)}40%{opacity:1;transform:scale(1)}}
+
+  /* PETALS */
+  #petalsCanvas{position:fixed;inset:0;pointer-events:none;z-index:1000;}
+
+  /* MUSIC WIDGET */
+  .music-widget{position:fixed;bottom:28px;right:28px;z-index:200;display:none;flex-direction:column;align-items:flex-end;gap:10px;}
+  .music-btn{width:52px;height:52px;border-radius:50%;background:var(--green);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(3,70,56,0.35);transition:width 0.5s cubic-bezier(0.34,1.56,0.64,1),height 0.5s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.3s;}
+  .music-btn:hover{background:var(--green-light);}
+  .music-btn svg{stroke:white;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:width 0.5s,height 0.5s;}
+  .music-btn svg{width:22px;height:22px;}
+  .music-btn .icon-pause{display:none;}
+  .music-btn.playing .icon-play{display:none;}
+  .music-btn.playing .icon-pause{display:block;}
+  @keyframes musicPulse{0%,100%{box-shadow:0 4px 20px rgba(3,70,56,0.35)}50%{box-shadow:0 4px 28px rgba(3,70,56,0.6),0 0 0 10px rgba(3,70,56,0.1)}}
+  .music-btn.playing{animation:musicPulse 2s ease-in-out infinite;}
+  .music-widget.hero-size .music-btn{width:80px;height:80px;}
+  .music-widget.hero-size .music-btn svg{width:34px;height:34px;}
+  @keyframes musicHint{0%{opacity:0;transform:translateY(6px)}20%,80%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(6px)}}
+  .music-hint{background:var(--green);color:white;font-family:'Jost',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;padding:7px 14px;white-space:nowrap;pointer-events:none;animation:musicHint 3s ease forwards;}
+  .volume-wrap{background:var(--green);padding:10px 14px;display:flex;align-items:center;gap:10px;opacity:0;transform:translateY(6px);transition:opacity 0.3s,transform 0.3s;pointer-events:none;}
+  .music-widget:hover .volume-wrap{opacity:1;transform:translateY(0);pointer-events:all;}
+  @media(max-width:768px){.volume-wrap{display:none!important;}}
+  .vol-icon{stroke:white;fill:none;width:14px;height:14px;flex-shrink:0;}
+  input[type=range].vol-slider{-webkit-appearance:none;width:90px;height:2px;background:rgba(255,255,255,0.35);outline:none;cursor:pointer;}
+  input[type=range].vol-slider::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:white;cursor:pointer;}
+  input[type=range].vol-slider::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:white;border:none;cursor:pointer;}
+
+  @media(max-width:600px){
+
+    .photo-triplet{grid-template-columns:1fr 1fr;}
+    .photo-triplet .photo-slot:nth-child(1){grid-column:1/3;}
+    .details-grid{grid-template-columns:1fr;gap:32px;}
+    .timer-num{min-width:60px;}
+    .attendance-opts{flex-direction:column;}
+    .dear-guests-inner{padding:36px 24px;}
+    .dear-guests-text{font-size:17px;}
+    .calendar-wrap{padding:24px 16px;}
+    .form-invite-text{padding:18px 20px;font-size:16px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- Loading -->
+<canvas id="petalsCanvas"></canvas>
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loading-dots">
+    <div class="loading-dot"></div>
+    <div class="loading-dot"></div>
+    <div class="loading-dot"></div>
+  </div>
+</div>
+
+<!-- LANG BAR -->
+<div class="lang-bar">
+  <button class="lang-btn active" onclick="setLang('ru',event)">РУС</button>
+  <button class="lang-btn" onclick="setLang('kz',event)">КЫР</button>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="ornament-tl"></div><div class="ornament-tr"></div>
+  <div class="ornament-bl"></div><div class="ornament-br"></div>
+  <div class="hero-content">
+    <p class="invite-label" id="heroLabel">Приглашение на свадьбу</p>
+    <div class="names" id="heroNames">Айдар<br><span class="ampersand">&</span>Алтынай</div>
+    <p class="date-line" id="heroDate">08 · 08 · 2026</p>
+  </div>
+</section>
+
+<div class="divider"><span class="divider-icon">✦</span></div>
+
+<!-- ДОРОГИЕ ГОСТИ -->
+<div class="dear-guests">
+  <div class="dear-guests-inner">
+    <h2 class="dear-guests-heading" data-anim="up" id="dearHeading">Дорогие гости!</h2>
+    <div class="dear-guests-hearts" data-anim="scale" data-delay="2">
+      <span class="heart-icon">✦</span><span class="heart-icon">✦</span><span class="heart-icon">✦</span>
+    </div>
+    <p class="dear-guests-text" data-anim="up" data-delay="3" id="dearText">С радостью приглашаем вас разделить с нами счастье неповторимого дня — свадьбы Айдара и Алтынай.</p>
+  </div>
+</div>
+
+<div class="divider"><span class="divider-icon">✦</span></div>
+
+<!-- ФОТО 1 -->
+<div class="photo-wide" data-anim="scale">
+  <div class="photo-slot" id="photo0"><div class="photo-empty"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div></div>
+</div>
+
+<div class="divider"><span class="divider-icon">✦</span></div>
+
+<!-- ТАЙМЕР -->
+<section class="timer-section">
+  <span class="section-label" data-anim="up" id="timerLabel">До нашего дня</span>
+  <div class="timer">
+    <div class="timer-unit" data-anim="up" data-delay="1"><div class="timer-num" id="days">00</div><div class="timer-label" id="labelDays">Дней</div></div>
+    <div class="timer-unit" data-anim="up" data-delay="2"><div class="timer-num" id="hours">00</div><div class="timer-label" id="labelHours">Часов</div></div>
+    <div class="timer-unit" data-anim="up" data-delay="3"><div class="timer-num" id="minutes">00</div><div class="timer-label" id="labelMinutes">Минут</div></div>
+    <div class="timer-unit" data-anim="up" data-delay="4"><div class="timer-num" id="seconds">00</div><div class="timer-label" id="labelSeconds">Секунд</div></div>
+  </div>
+</section>
+
+<div class="divider"><span class="divider-icon">✦</span></div>
+
+<!-- КАЛЕНДАРЬ -->
+<div class="calendar-section">
+  <span class="cal-label" data-anim="up" id="calLabel">Сохраните дату</span>
+  <div class="calendar-wrap" data-anim="scale" data-delay="2">
+    <div class="cal-month" id="calMonth">Август 2026</div>
+    <div class="cal-grid" id="calGrid"></div>
+  </div>
+</div>
+
+<div class="divider"><span class="divider-icon">✦</span></div>
+
+<!-- ФОТО СЛАЙДЕР -->
+<div class="photo-slider-wrap" data-anim="up">
+  <div class="photo-slider" id="photoSlider">
+    <div class="photo-slide" id="photo1"><div class="photo-empty"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div></div>
+    <div class="photo-slide" id="photo2"><div class="photo-empty"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div></div>
+    <div class="photo-slide" id="photo6"><div class="photo-empty"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div></div>
+  </div>
+  <div class="slider-dots" id="sliderDots">
+    <span class="slider-dot active" onclick="goSlide(0)"></span>
+    <span class="slider-dot" onclick="goSlide(1)"></span>
+    <span class="slider-dot" onclick="goSlide(2)"></span>
+  </div>
+</div>
+
+<div class="divider"><span class="divider-icon">✦</span></div>
+
+<!-- ДЕТАЛИ -->
+<section class="details-section">
+  <span class="section-label" data-anim="up" id="detailsLabel">Детали торжества</span>
+  <div class="details-grid">
+    <div class="detail-item" data-anim="up" data-delay="1"><h3 id="detDate_h">Дата</h3><p id="detDate_v">8 августа 2026<br>Суббота</p></div>
+    <div class="detail-item" data-anim="up" data-delay="2"><h3 id="detTime_h">Время</h3><p id="detTime_v">Начало в 17:00</p></div>
+    <div class="detail-item" data-anim="up" data-delay="3"><h3 id="detVenue_h">Место</h3><p id="detVenue_v">Ресторан «Барашек»<br>ул. Токомбаева 78Б</p></div>
+    <div class="detail-item" data-anim="up" data-delay="4"><h3 id="detDress_h">Дресс-код</h3><p id="detDress_v">Торжественный<br>Зелёный и айвори</p></div>
+  </div>
+</section>
+
+<!-- ФОТО 4-5-6 -->
+<div class="photo-triplet">
+  <div class="photo-slot" data-anim="left" id="photo3"><div class="photo-empty"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div></div>
+  <div class="photo-slot" data-anim="up" data-delay="2" id="photo4"><div class="photo-empty"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div></div>
+  <div class="photo-slot" data-anim="right" data-delay="3" id="photo5"><div class="photo-empty"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div></div>
+</div>
+
+<div class="divider"><span class="divider-icon">✦</span></div>
+
+<!-- CLOSING -->
+<div class="closing-script" data-anim="up" style="padding:0 20px 20px;">
+  <p class="closing-script-text" id="closingText">Разделите этот праздник вместе с нами!</p>
+</div>
+
+<div class="divider"><span class="divider-icon">✦</span></div>
+
+<!-- АНКЕТА -->
+<section class="form-section">
+  <span class="section-label" id="formLabel">Анкета гостя</span>
+  <h2 class="form-title" id="formTitle">Вы придёте?</h2>
+  <div class="form-success" id="formSuccess"><span id="successText">Спасибо! Ждём вас с нетерпением ✦</span></div>
+  <p class="form-sub" id="formSub">Ждём подтверждения до 1 июля 2026 года</p>
+  <div class="form-invite-text"><span id="formInviteText">Мы будем ждать обратного ответа от вас. Будьте с нами, чтобы наполнить этот день ещё большим счастьем и радостью.</span></div>
+  <div class="rsvp-form" id="rsvpForm">
+    <div class="form-field">
+      <label id="nameLabel">Ваше имя</label>
+      <input type="text" id="guestName" placeholder="Иванов Иван Иванович">
+    </div>
+    <div class="form-field">
+      <label id="attendLabel">Ваш ответ</label>
+      <div class="attendance-opts">
+        <div class="attendance-opt"><input type="radio" name="attend" id="att-yes" value="coming"><label for="att-yes" id="optComing">Приду 🥂</label></div>
+        <div class="attendance-opt"><input type="radio" name="attend" id="att-later" value="later"><label for="att-later" id="optLater">Скажу позже</label></div>
+        <div class="attendance-opt"><input type="radio" name="attend" id="att-no" value="notcoming"><label for="att-no" id="optNot">Не смогу</label></div>
+      </div>
+    </div>
+    <div class="form-field" style="margin-bottom:16px;">
+      <label id="sideLabel" style="font-size:10px;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:10px;display:block;">Вы со стороны</label>
+      <div class="side-opts" id="sideOpts">
+        <div class="side-opt"><input type="radio" name="side" id="side-groom" value="groom" onchange="document.getElementById('sideOpts').classList.remove('error')"><label for="side-groom" id="sideGroom">Жениха</label></div>
+        <div class="side-opt"><input type="radio" name="side" id="side-bride" value="bride" onchange="document.getElementById('sideOpts').classList.remove('error')"><label for="side-bride" id="sideBride">Невесты</label></div>
+      </div>
+      <div class="side-error-msg" id="sideError">Пожалуйста, укажите со стороны кого вы гость</div>
+    </div>
+    <label class="spouse-toggle">
+      <input type="checkbox" id="hasSpouse" onchange="toggleSpouseField()">
+      <span class="spouse-check"></span>
+      <span class="spouse-toggle-label" id="spouseToggleLabel">Приду с супругом / супругой</span>
+    </label>
+    <div class="form-field spouse-field" id="spouseField">
+      <label id="spouseNameLabel" style="font-size:10px;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:10px;display:block;">Имя супруга / супруги</label>
+      <input type="text" id="spouseName" placeholder="Иванова Мария Ивановна" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,0.25);padding:10px 0;font-family:'Cormorant Garamond',serif;font-size:22px;color:white;outline:none;">
+    </div>
+    <button class="submit-btn" id="submitBtn" onclick="submitRSVP()">Отправить</button>
+  </div>
+</section>
+
+<!-- MUSIC WIDGET -->
+<div class="music-widget" id="musicWidget">
+  <div class="music-hint" id="musicHint">Нажмите для музыки</div>
+  <div class="volume-wrap">
+    <svg class="vol-icon" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+    <input type="range" class="vol-slider" id="volSlider" min="0" max="1" step="0.05" value="0.7" oninput="setVolume(this.value)">
+  </div>
+  <button class="music-btn" id="musicBtn" onclick="toggleMusic()" title="Музыка">
+    <svg class="icon-play" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+    <svg class="icon-pause" viewBox="0 0 24 24"><line x1="6" y1="4" x2="6" y2="20"/><line x1="18" y1="4" x2="18" y2="20"/></svg>
+  </button>
+</div>
+<audio id="weddingAudio" loop></audio>
+
+<footer>
+  <span class="footer-names" id="footerNames">Айдар & Алтынай</span>
+  <span id="footerSub">8 августа 2026 · Ресторан «Барашек»</span>
+</footer>
+
+<!-- Firebase -->
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getDatabase, ref, onValue, push, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
+
+// ══════════════════════════════════════════
+// 🔧 ВСТАВЬТЕ СЮДА ВАШИ ДАННЫЕ FIREBASE
+// ══════════════════════════════════════════
+const firebaseConfig = {
+  apiKey: "AIzaSyBYtkvl8R3ihyahq7r3-dXagExUpo6g5Gs",
+  authDomain: "wedding2-95ee2.firebaseapp.com",
+  databaseURL: "https://wedding2-95ee2-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "wedding2-95ee2",
+  storageBucket: "wedding2-95ee2.firebasestorage.app",
+  messagingSenderId: "84666756418",
+  appId: "1:84666756418:web:0b36d5f0f18059b5be2cdb",
+  measurementId: "G-GLPYSE22VW"
+};
+// ══════════════════════════════════════════
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+let currentLang = 'ru';
+let siteData = {};
+
+// ── LOAD SITE SETTINGS ──────────────────
+const settingsRef = ref(db, 'settings');
+onValue(settingsRef, (snapshot) => {
+  const data = snapshot.val() || {};
+  siteData = data;
+  applySettings(data);
+  document.getElementById('loadingOverlay').classList.add('hidden');
+  setTimeout(launchPetals, 400);
+});
+
+function applySettings(d) {
+  const l = currentLang;
+  const get = (key, fallback) => (d[key] && d[key][l]) || (d[key] && d[key]['ru']) || d[key] || fallback;
+
+  // Hero
+  setHTML('heroLabel', get('heroLabel', 'Приглашение на свадьбу'));
+  setHTML('heroDate', get('heroDate', '08 · 08 · 2026'));
+  const name1 = get('name1', 'Айдар');
+  const name2 = get('name2', 'Алтынай');
+  document.getElementById('heroNames').innerHTML = `${name1}<br><span class="ampersand">&</span>${name2}`;
+  document.getElementById('pageTitle').textContent = `${name1} & ${name2}`;
+
+  // Dear Guests
+  setHTML('dearHeading', get('dearHeading', 'Дорогие гости!'));
+  setHTML('dearText', get('dearText', 'С радостью приглашаем вас разделить с нами счастье неповторимого дня.'));
+
+  // Details
+  setHTML('detDate_h', get('detDateH', 'Дата'));
+  setHTML('detDate_v', get('detDateV', '8 августа 2026<br>Суббота'));
+  setHTML('detTime_h', get('detTimeH', 'Время'));
+  setHTML('detTime_v', get('detTimeV', 'Начало в 17:00'));
+  setHTML('detVenue_h', get('detVenueH', 'Место'));
+  setHTML('detVenue_v', get('detVenueV', 'Ресторан «Барашек»<br>ул. Токомбаева 78Б'));
+  setHTML('detDress_h', get('detDressH', 'Дресс-код'));
+  setHTML('detDress_v', get('detDressV', 'Торжественный<br>Зелёный и айвори'));
+
+  // Form texts
+  setHTML('formLabel', get('formLabel', 'Анкета гостя'));
+  setHTML('formTitle', get('formTitle', 'Вы придёте?'));
+  setHTML('formSub', get('formSub', 'Ждём подтверждения до 1 июля 2026 года'));
+  setHTML('formInviteText', get('formInviteText', 'Мы будем ждать обратного ответа от вас.'));
+  const closingRaw = get('closingText', 'Разделите этот праздник вместе с нами!');
+  const kyChars = 'ңөүҢӨҮ';
+  const closingWrapped = closingRaw.split('').map(ch => kyChars.includes(ch) ? `<span class="ky-char">${ch}</span>` : ch).join('');
+  setHTML('closingText', closingWrapped);
+
+  // Form labels
+  setHTML('nameLabel', get('nameLabel', 'Ваше имя'));
+  setHTML('attendLabel', get('attendLabel', 'Ваш ответ'));
+  setHTML('sideLabel', get('sideLabel', 'Вы со стороны'));
+  setHTML('sideGroom', get('sideGroom', 'Жениха'));
+  setHTML('sideBride', get('sideBride', 'Невесты'));
+  setHTML('sideError', get('sideError', 'Пожалуйста, укажите со стороны кого вы гость'));
+  setHTML('spouseToggleLabel', get('spouseToggleLabel', 'Приду с супругом / супругой'));
+  setHTML('spouseNameLabel', get('spouseNameLabel', 'Имя супруга / супруги'));
+  setHTML('optComing', get('optComing', 'Приду 🥂'));
+  setHTML('optLater', get('optLater', 'Скажу позже'));
+  setHTML('optNot', get('optNot', 'Не смогу'));
+  setHTML('submitBtn', get('submitBtn', 'Отправить'));
+  setHTML('successText', get('successText', 'Спасибо! Ждём вас с нетерпением ✦'));
+
+  // Footer
+  setHTML('footerNames', `${name1} & ${name2}`);
+  setHTML('footerSub', get('footerSub', '8 августа 2026 · Ресторан «Барашек»'));
+
+  // Timer labels
+  setHTML('timerLabel', get('timerLabel', 'До нашего дня'));
+  setHTML('labelDays', get('labelDays', 'Дней'));
+  setHTML('labelHours', get('labelHours', 'Часов'));
+  setHTML('labelMinutes', get('labelMinutes', 'Минут'));
+  setHTML('labelSeconds', get('labelSeconds', 'Секунд'));
+  setHTML('calLabel', get('calLabel', 'Сохраните дату'));
+  setHTML('detailsLabel', get('detailsLabel', 'Детали торжества'));
+
+  // Timer date
+  const weddingDate = d.weddingDate || '2026-08-08T17:00:00';
+  updateTimer(weddingDate);
+
+  // Calendar
+  const dateObj = new Date(weddingDate);
+  buildCalendar(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate());
+
+  // Photos — слайдер (photo1, photo2, photo6) и обычные (photo0, photo3, photo4, photo5)
+  const sliderIds = ['photo1','photo2','photo6'];
+  const normalIds = [0,3,4,5];
+  normalIds.forEach(i => {
+    const slot = document.getElementById('photo' + i);
+    const url = d['photo' + i];
+    if (!slot) return;
+    if (url) {
+      slot.classList.add('has-photo');
+      const img = new Image();
+      img.onload = function() {
+        const ratio = this.naturalWidth / this.naturalHeight;
+        slot.style.aspectRatio = ratio.toFixed(4);
+        slot.innerHTML = `<img src="${url}" style="width:100%;height:100%;object-fit:cover;display:block;" alt="photo ${i}">`;
+      };
+      img.src = url;
+    } else {
+      slot.classList.remove('has-photo');
+      slot.style.aspectRatio = '';
+      slot.innerHTML = `<div class="photo-empty"><svg viewBox="0 0 24 24" stroke-width="1" style="stroke:#b0a898;fill:none;width:36px;height:36px;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>`;
+    }
+  });
+  // Slider photos
+  const sliderKeys = ['photo1','photo2','photo6'];
+  sliderKeys.forEach((key, idx) => {
+    const slide = document.getElementById(key);
+    const url = d[key];
+    if (!slide) return;
+    if (url) {
+      slide.innerHTML = `<img src="${url}" style="width:100%;height:auto;display:block;" alt="slide ${idx}">`;
+    } else {
+      slide.innerHTML = `<div class="photo-empty"><svg viewBox="0 0 24 24" stroke-width="1" style="stroke:#b0a898;fill:none;width:36px;height:36px;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>`;
+    }
+  });
+  initSlider();
+  // Music
+  const musicUrl = d.musicUrl || '';
+  const audio = document.getElementById('weddingAudio');
+  const widget = document.getElementById('musicWidget');
+  const btn = document.getElementById('musicBtn');
+  if (musicUrl && widget) {
+    if (audio.src !== musicUrl) {
+      audio.src = musicUrl;
+      audio.volume = parseFloat(document.getElementById('volSlider').value);
+    }
+    widget.style.display = 'flex';
+    // Show hero size on load, shrink on scroll
+    widget.classList.add('hero-size');
+    setTimeout(() => {
+      const hint = document.getElementById('musicHint');
+      if (hint) hint.style.display = 'none';
+    }, 5500);
+    window.addEventListener('scroll', function onScroll() {
+      if (window.scrollY > 120) {
+        widget.classList.remove('hero-size');
+      } else {
+        widget.classList.add('hero-size');
+      }
+    }, { passive: true });
+  } else if (widget) {
+    widget.style.display = 'none';
+  }
+}
+
+// ── MUSIC ────────────────────────────────
+window.toggleMusic = function() {
+  const audio = document.getElementById('weddingAudio');
+  const btn = document.getElementById('musicBtn');
+  if (!audio.src) return;
+  if (audio.paused) {
+    audio.play().then(() => btn.classList.add('playing')).catch(() => {});
+  } else {
+    audio.pause();
+    btn.classList.remove('playing');
+  }
+};
+
+window.setVolume = function(val) {
+  const audio = document.getElementById('weddingAudio');
+  if (audio) audio.volume = parseFloat(val);
+};
+
+function setHTML(id, val) {
+  const el = document.getElementById(id);
+  if (el && val !== undefined) el.innerHTML = val;
+}
+
+// ── LANGUAGE ────────────────────────────
+window.setLang = function(lang, e) {
+  currentLang = lang;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  e.target.classList.add('active');
+  applySettings(siteData);
+};
+
+// ── TIMER ───────────────────────────────
+let timerInterval;
+function updateTimer(dateStr) {
+  clearInterval(timerInterval);
+  function tick() {
+    const diff = new Date(dateStr) - new Date();
+    if (diff <= 0) { ['days','hours','minutes','seconds'].forEach(id => { const el = document.getElementById(id); if(el) el.textContent='00'; }); return; }
+    const el = (id) => document.getElementById(id);
+    if(el('days'))    el('days').textContent    = String(Math.floor(diff/86400000)).padStart(2,'0');
+    if(el('hours'))   el('hours').textContent   = String(Math.floor((diff%86400000)/3600000)).padStart(2,'0');
+    if(el('minutes')) el('minutes').textContent = String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
+    if(el('seconds')) el('seconds').textContent = String(Math.floor((diff%60000)/1000)).padStart(2,'0');
+  }
+  tick(); timerInterval = setInterval(tick, 1000);
+}
+
+// ── CALENDAR ────────────────────────────
+function buildCalendar(year, month, highlightDay) {
+  const grid = document.getElementById('calGrid');
+  if (!grid) return;
+  const months_ru = ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
+  const months_kz = ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
+  const el = document.getElementById('calMonth');
+  if (el) el.textContent = `${months_ru[month]} ${year}`;
+  grid.innerHTML = '';
+  ['ПН','ВТ','СР','ЧТ','ПТ','СБ','ВС'].forEach(d => {
+    const n = document.createElement('div'); n.className='cal-day-name'; n.textContent=d; grid.appendChild(n);
+  });
+  const firstDay = new Date(year, month, 1).getDay();
+  const offset = firstDay === 0 ? 6 : firstDay - 1;
+  const daysInMonth = new Date(year, month+1, 0).getDate();
+  for (let i = 0; i < offset; i++) { const e = document.createElement('div'); e.className='cal-day empty'; grid.appendChild(e); }
+  for (let d = 1; d <= daysInMonth; d++) {
+    const e = document.createElement('div');
+    const dow = (offset + d - 1) % 7;
+    let cls = 'cal-day';
+    if (dow === 5 || dow === 6) cls += ' weekend';
+    if (d === highlightDay) cls += ' highlight';
+    e.className = cls; e.textContent = d; grid.appendChild(e);
+  }
+}
+
+// ── RSVP ────────────────────────────────
+window.toggleSpouseField = function() {
+  const cb = document.getElementById('hasSpouse');
+  const field = document.getElementById('spouseField');
+  field.classList.toggle('visible', cb.checked);
+};
+
+window.submitRSVP = async function() {
+  const name = document.getElementById('guestName').value.trim();
+  const attend = document.querySelector('input[name="attend"]:checked');
+  const sideEl = document.querySelector('input[name="side"]:checked');
+  const side = sideEl ? sideEl.value : '';
+  const hasSpouse = document.getElementById('hasSpouse').checked;
+  const spouseName = document.getElementById('spouseName').value.trim();
+  const btn = document.getElementById('submitBtn');
+  let hasError = false;
+  let firstError = null;
+
+  // 1. Ваше имя — обязательно
+  if (!name) {
+    document.getElementById('guestName').style.borderColor = '#c0392b';
+    firstError = firstError || document.getElementById('guestName');
+    hasError = true;
+  } else {
+    document.getElementById('guestName').style.borderColor = '';
+  }
+
+  // 2. Ваш ответ — обязательно
+  const attendOpts = document.querySelector('.attendance-opts');
+  if (!attend) {
+    attendOpts.style.outline = '1px solid #c0392b';
+    attendOpts.style.outlineOffset = '4px';
+    firstError = firstError || attendOpts;
+    hasError = true;
+  } else {
+    attendOpts.style.outline = '';
+  }
+
+  // 3. Сторона — обязательно
+  if (!side) {
+    document.getElementById('sideOpts').classList.add('error');
+    firstError = firstError || document.getElementById('sideOpts');
+    hasError = true;
+  } else {
+    document.getElementById('sideOpts').classList.remove('error');
+  }
+
+  // 4. Имя супруга — обязательно если чекбокс выбран
+  if (hasSpouse && !spouseName) {
+    document.getElementById('spouseName').style.borderBottomColor = '#c0392b';
+    firstError = firstError || document.getElementById('spouseName');
+    hasError = true;
+  } else {
+    document.getElementById('spouseName').style.borderBottomColor = '';
+  }
+
+  if (hasError) {
+    if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = '...';
+  try {
+    const coupleId = hasSpouse ? Date.now().toString(36) : null;
+    await push(ref(db, 'guests'), { name, status: attend.value, time: serverTimestamp(), lang: currentLang, coupleId, side });
+    if (hasSpouse) {
+      await push(ref(db, 'guests'), { name: spouseName, status: attend.value, time: serverTimestamp(), lang: currentLang, coupleId, isSpouse: true, spouseOf: name, side });
+    }
+    document.getElementById('formTitle').style.display = 'none';
+    document.getElementById('rsvpForm').style.display = 'none';
+    document.getElementById('formSuccess').style.display = 'block';
+  } catch(err) {
+    btn.disabled = false;
+    btn.textContent = 'Отправить';
+    alert('Ошибка. Попробуйте ещё раз.');
+  }
+};
+
+// ── PETALS ──────────────────────────────
+function launchPetals() {
+  const canvas = document.getElementById('petalsCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  function resize() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize, { passive: true });
+
+  const palette = [
+    '#034638','#055a48','#2d7a65','#4a9b85',
+    '#7faa9e','#a8c5bb','#c8ddd8','#d4e8e2',
+    '#1a6b55','#86b5a8','#ffffff','#e8f4f0'
+  ];
+
+  // Petal shapes as bezier paths (relative coords, size ~1)
+  function drawPetal(ctx, x, y, size, angle, alpha, color, shape) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(angle);
+    ctx.globalAlpha = alpha;
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    if (shape === 0) {
+      // Rose petal
+      ctx.moveTo(0, 0);
+      ctx.bezierCurveTo(-size*0.5, -size*0.8, -size*0.8, -size*1.8, 0, -size*2);
+      ctx.bezierCurveTo( size*0.8, -size*1.8,  size*0.5, -size*0.8, 0, 0);
+    } else if (shape === 1) {
+      // Round petal
+      ctx.ellipse(0, -size, size*0.55, size, 0, 0, Math.PI*2);
+    } else {
+      // Heart petal
+      ctx.moveTo(0, 0);
+      ctx.bezierCurveTo(-size*0.6, -size*0.6, -size*1.2, -size*0.2, 0, -size*1.4);
+      ctx.bezierCurveTo( size*1.2, -size*0.2,  size*0.6, -size*0.6, 0, 0);
+    }
+    ctx.fill();
+    ctx.restore();
+  }
+
+  const petals = [];
+  const TOTAL = 90;
+
+  function spawnPetal(delayed) {
+    const size = 7 + Math.random() * 11;
+    petals.push({
+      x: Math.random() * canvas.width,
+      y: delayed ? -20 - Math.random() * canvas.height : -20 - Math.random() * 60,
+      size,
+      color: palette[Math.floor(Math.random() * palette.length)],
+      shape: Math.floor(Math.random() * 3),
+      vx: (Math.random() - 0.5) * 1.2,
+      vy: 0.8 + Math.random() * 1.6,
+      angle: Math.random() * Math.PI * 2,
+      spin: (Math.random() - 0.5) * 0.06,
+      wobble: Math.random() * Math.PI * 2,
+      wobbleSpeed: 0.02 + Math.random() * 0.03,
+      alpha: 0.75 + Math.random() * 0.25,
+      fadeDelay: 180 + Math.random() * 120,
+      life: 0,
+      maxLife: 260 + Math.random() * 100,
+    });
+  }
+
+  // Spawn all petals staggered
+  for (let i = 0; i < TOTAL; i++) {
+    setTimeout(() => spawnPetal(false), i * 60);
+  }
+
+  let frame = 0;
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    let alive = false;
+
+    petals.forEach(p => {
+      if (p.life > p.maxLife) return;
+      alive = true;
+      p.life++;
+      p.wobble += p.wobbleSpeed;
+      p.x += p.vx + Math.sin(p.wobble) * 0.6;
+      p.y += p.vy;
+      p.angle += p.spin;
+
+      let alpha = p.alpha;
+      if (p.life > p.fadeDelay) {
+        alpha *= 1 - (p.life - p.fadeDelay) / (p.maxLife - p.fadeDelay);
+      }
+
+      drawPetal(ctx, p.x, p.y, p.size, p.angle, Math.max(0, alpha), p.color, p.shape);
+    });
+
+    frame++;
+    if (alive || frame < TOTAL * 4) {
+      requestAnimationFrame(animate);
+    } else {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      canvas.style.display = 'none';
+    }
+  }
+  animate();
+}
+
+// ── PHOTO SLIDER ────────────────────────
+let sliderIndex = 0;
+let sliderTimer = null;
+let sliderLoaded = false;
+
+function initSlider() {
+  if (sliderLoaded) return;
+  sliderLoaded = true;
+  goSlide(0);
+  startSliderAuto();
+
+  // Swipe support
+  const slider = document.getElementById('photoSlider');
+  if (!slider) return;
+  let startX = 0, startY = 0, isDragging = false;
+  slider.addEventListener('touchstart', e => {
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+    isDragging = true;
+  }, { passive: true });
+  slider.addEventListener('touchend', e => {
+    if (!isDragging) return;
+    const dx = e.changedTouches[0].clientX - startX;
+    const dy = e.changedTouches[0].clientY - startY;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+      if (dx < 0) goSlide((sliderIndex + 1) % 3);
+      else goSlide((sliderIndex + 2) % 3);
+      resetSliderAuto();
+    }
+    isDragging = false;
+  }, { passive: true });
+  // Mouse drag for desktop
+  let mouseStartX = 0;
+  slider.addEventListener('mousedown', e => { mouseStartX = e.clientX; });
+  slider.addEventListener('mouseup', e => {
+    const dx = e.clientX - mouseStartX;
+    if (Math.abs(dx) > 40) {
+      if (dx < 0) goSlide((sliderIndex + 1) % 3);
+      else goSlide((sliderIndex + 2) % 3);
+      resetSliderAuto();
+    }
+  });
+}
+
+let sliderAnimating = false;
+window.goSlide = function(idx) {
+  if (sliderAnimating || idx === sliderIndex) return;
+  sliderAnimating = true;
+  const slider = document.getElementById('photoSlider');
+  const slides = document.querySelectorAll('.photo-slide');
+  const dots = document.querySelectorAll('.slider-dot');
+  const direction = idx > sliderIndex ? 1 : -1;
+  const current = slides[sliderIndex];
+  const next = slides[idx];
+
+  // Lock height of slider to prevent page jump
+  slider.style.height = slider.offsetHeight + 'px';
+
+  // Set next slide starting position
+  next.classList.remove('active','exit-left','exit-right','enter-left','enter-right');
+  next.classList.add(direction > 0 ? 'enter-right' : 'enter-left');
+
+  void next.offsetWidth;
+
+  // Animate current out
+  current.classList.add(direction > 0 ? 'exit-left' : 'exit-right');
+  current.classList.remove('active');
+
+  // Animate next in
+  requestAnimationFrame(() => {
+    next.classList.remove('enter-right','enter-left');
+    next.classList.add('active');
+  });
+
+  dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+
+  setTimeout(() => {
+    current.classList.remove('exit-left','exit-right');
+    // Release locked height
+    slider.style.height = '';
+    sliderIndex = idx;
+    sliderAnimating = false;
+  }, 900);
+};
+
+function startSliderAuto() {
+  sliderTimer = setInterval(() => {
+    goSlide((sliderIndex + 1) % 3);
+  }, 5500);
+}
+
+function resetSliderAuto() {
+  clearInterval(sliderTimer);
+  startSliderAuto();
+}
+
+// ── SCROLL ANIMATIONS ───────────────────
+const animObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in-view'); animObs.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('[data-anim]').forEach(el => animObs.observe(el));
+document.querySelectorAll('.divider').forEach(el => animObs.observe(el));
+</script>
+</body>
+</html>
